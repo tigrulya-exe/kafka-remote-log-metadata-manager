@@ -65,6 +65,7 @@ Each remote metadata storage backend should also provide implementation of `Meta
 ### Remote storage connector
 
 Remote storage connector is implementation of `MetadataStorageConnector`, that simply creates `MetadataStorageBackend` and `MetadataKeyFactory`.
+
 ## Configuration
 
 Kafka can be configured using the following options to enable the current `RemoteLogMetadataManager` implementation:
@@ -74,3 +75,9 @@ Kafka can be configured using the following options to enable the current `Remot
 | `remote.log.metadata.manager.class.name`        | String | org.apache.kafka.server.log.remote.storage.RemoteLogMetadataManager           | Fully qualified class name of `RemoteLogMetadataManager` implementation. To enable current implementation it should be set to 'io.arenadata.kafka.tieredstorage.metadata.storage.RemoteLogMetadataManager' |
 | `rlmm.config.metadata.storage.connector.class`  | String | -                                                                             | Fully qualified class name of `MetadataStorageConnector` implementation.                                                                                                                                   |
 | `rlmm.config.metadata.storage.serializer.class` | String | io.arenadata.kafka.tieredstorage.metadata.storage.serde.DefaultMetadataMapper | Fully qualified class name of `MetadataSerDe` implementation, remote log/partition metadata serializer.                                                                                                    |
+
+### Local demo
+
+To run the Kafka instance with Zookeeper RemoteLogMetadataManager and HDFS storage backend locally, follow these steps:
+1. Run `make docker_image` to build the docker image of Kafka with the necessary dependencies.
+2. Follow the instruction from [demo/README.md](demo/README.md)
