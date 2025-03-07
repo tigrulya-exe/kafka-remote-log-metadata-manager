@@ -26,13 +26,9 @@ services:
     container_name: "kafka-ts"
     depends_on:
       - zookeeper
-      - namenode
-      - datanode
     ports:
       - "9092:9092"
       - "7001:7000" #prometheus metrics
-    volumes:
-      - ./conf:/etc/hdfs-conf
     environment:
       KAFKA_BROKER_ID: 0
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
@@ -54,7 +50,6 @@ services:
       KAFKA_REMOTE_LOG_MANAGER_TASK_INTERVAL_MS: 5000
       # Remote metadata manager
       KAFKA_REMOTE_LOG_METADATA_MANAGER_CLASS_NAME: "io.arenadata.kafka.tieredstorage.metadata.storage.RemoteLogMetadataManager"
-      KAFKA_REMOTE_LOG_METADATA_MANAGER_IMPL_PREFIX: "rlmm.config."
       KAFKA_REMOTE_LOG_METADATA_MANAGER_CLASS_PATH: "/kafka-remote-log-metadata-manager/*"
       KAFKA_RLMM_CONFIG_METADATA_STORAGE_CONNECTOR_CLASS: "io.arenadata.kafka.tieredstorage.storage.zookeeper.ZookeeperMetadataStorageConnector"
       KAFKA_RLMM_CONFIG_METADATA_STORAGE_ZOOKEEPER_HOST: "zookeeper:2181"
@@ -72,26 +67,5 @@ services:
       KAFKA_RSM_CONFIG_KEY_PREFIX: "tiered-storage-demo/"
       KAFKA_RSM_CONFIG_STORAGE_BACKEND_CLASS: "io.aiven.kafka.tieredstorage.storage.filesystem.FileSystemStorage"
       KAFKA_RSM_CONFIG_STORAGE_ROOT: "/home/appuser/kafka-tiered-storage"
-      # To avoid the need to configure fs permissions
-      HADOOP_USER_NAME: "hadoop"
-
-  namenode:
-    image: apache/hadoop:3.3.6
-    container_name: "hdfs_ts_namenode"
-    ports:
-      - "9870:9870"
-      - "8020:8020"
-    hostname: namenode
-    command: hdfs namenode
-    env_file:
-      - conf/.env
-    environment:
-      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
-
-  datanode:
-    image: apache/hadoop:3.3.6
-    command: hdfs datanode
-    env_file:
-      - conf/.env
-    depends_on:
-      - namenode
+    command: >
+      bash -c "mkdir /home/appuser/kafka-tiered-storage && /etc/confluent/docker/run"
