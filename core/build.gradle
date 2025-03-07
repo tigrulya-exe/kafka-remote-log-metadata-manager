@@ -12,7 +12,9 @@
  * limitations under the License.
  */
 
-archivesBaseName = "metadata-manager-core"
+base {
+    archivesName = "metadata-manager-core"
+}
 
 dependencies {
     implementation project(":metadata-storage:core")

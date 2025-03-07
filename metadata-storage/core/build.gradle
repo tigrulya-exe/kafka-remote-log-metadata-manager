@@ -17,7 +17,9 @@ plugins {
     id 'java-test-fixtures'
 }
 
-archivesBaseName = "metadata-storage-core"
+base {
+    archivesName = "metadata-storage-core"
+}
 
 dependencies {
     compileOnly "org.apache.kafka:kafka-clients:$kafkaVersion"
