@@ -46,3 +46,4 @@ ENV KAFKA_OPTS="-javaagent:/opt/prometheus/jmx-exporter/jmx_prometheus_javaagent
 USER appuser
 
 RUN mkdir /home/appuser/kafka-tiered-storage-cache
+RUN mkdir /home/appuser/kafka-tiered-storage
