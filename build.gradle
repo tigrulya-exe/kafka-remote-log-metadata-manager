@@ -20,8 +20,10 @@ plugins {
 
 allprojects {
     repositories {
+        maven {
+            url = uri("https://oss.sonatype.org/service/local/repositories/snapshots/content")
+        }
         mavenCentral()
-        mavenLocal()
     }
 
     // https://docs.gradle.org/current/userguide/distribution_plugin.html
@@ -180,7 +182,7 @@ subprojects {
 dependencies {
     // needed to run demo because Kafka has no default RemoteLogStorageManager implementation
     runtimeOnly "io.aiven:tiered-storage-for-apache-kafka-core:0.0.1-SNAPSHOT"
-    runtimeOnly "io.arenadata:hdfs-kafka-tiered-storage-backend:0.0.1-SNAPSHOT"
+    runtimeOnly "io.aiven:tiered-storage-for-apache-kafka-storage-filesystem:0.0.1-SNAPSHOT"
 }
 
 distributions {
@@ -196,7 +198,7 @@ distributions {
     }
 
     tieredStorage {
-        distributionBaseName = "hdfs-kafka-tiered-storage-backend"
+        distributionBaseName = "aiven-local-storage-backend"
         contents {
             from(project.configurations.runtimeClasspath)
         }

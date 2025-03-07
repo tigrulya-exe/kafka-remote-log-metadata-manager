@@ -17,14 +17,18 @@ To run the demos, you need:
 
 This scenario uses `HdfsStorage` as the remote storage and `ZookeeperMetadataStorage` as metadata storage.
 
+### Local filesystem as "remote" storage with zookeeper as metadata remote storage: `compose-local-fs-zookeeper.yml`
+
+This scenario uses `FileSystemStorage` as the "remote" storage and `ZookeeperMetadataStorage` as the metadata storage.
+
 ```bash
 # Start the compose
-make run_hdfs_with_zookeeper
+make run_local_fs_with_zookeeper
 
 # Create the topic with any variation
-make create_topic_by_time_ts
+make create_topic_by_size_ts
 # or
-# make create_topic_by_size_ts
+# make create_topic_by_time_ts
 # or with TS disabled
 # make create_topic_*_no_ts
 
@@ -33,7 +37,7 @@ make fill_topic
 
 # See that segments are uploaded to the remote storage
 # (this may take several seconds)
-make show_remote_data_hdfs
+make show_remote_data_fs
 
 # See that segments metadata are uploaded to the remote metadata storage
 # (this may take several seconds)

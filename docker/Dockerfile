@@ -22,17 +22,17 @@ ARG _VERSION
 USER root
 
 RUN mkdir -p /kafka-remote-log-metadata-manager \
-    &&  mkdir -p /tiered-storage-for-apache-kafka/hdfs
+    &&  mkdir -p /tiered-storage-for-apache-kafka/fs
 
 COPY build/distributions/kafka-remote-log-metadata-manager-${_VERSION}.tgz /kafka-remote-log-metadata-manager/
 RUN cd /kafka-remote-log-metadata-manager/ \
     && tar -xf kafka-remote-log-metadata-manager-${_VERSION}.tgz --strip-components=1 \
     && rm kafka-remote-log-metadata-manager-${_VERSION}.tgz
 
-COPY build/distributions/hdfs-kafka-tiered-storage-backend-${_VERSION}.tgz /tiered-storage-for-apache-kafka/hdfs
-RUN cd /tiered-storage-for-apache-kafka/hdfs \
-    && tar -xf hdfs-kafka-tiered-storage-backend-${_VERSION}.tgz --strip-components=1 \
-    && rm hdfs-kafka-tiered-storage-backend-${_VERSION}.tgz
+COPY build/distributions/aiven-local-storage-backend-${_VERSION}.tgz /tiered-storage-for-apache-kafka/fs
+RUN cd /tiered-storage-for-apache-kafka/fs \
+    && tar -xf aiven-local-storage-backend-${_VERSION}.tgz --strip-components=1 \
+    && rm aiven-local-storage-backend-${_VERSION}.tgz
 
 # Installing JMX exporter agent
 ARG JMX_EXPORTER_VERSION=0.18.0

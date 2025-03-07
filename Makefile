@@ -33,7 +33,7 @@ test: build
 	./gradlew test
 
 integration_test: build
-	./gradlew :storage-backend:integrationTest
+	./gradlew integrationTest
 
 .PHONY: docker_image
 docker_image: build
