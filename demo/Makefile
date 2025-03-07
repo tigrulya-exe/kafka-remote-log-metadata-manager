@@ -93,24 +93,23 @@ fill_topic:
 		--record-size $(record_size) \
 		--throughput $(throughput)
 
-.PHONY: run_hdfs
-run_hdfs_with_zookeeper:
-	docker compose -f compose-hdfs-zookeeper.yml up
+.PHONY: run_local_fs_with_zookeeper
+run_local_fs_with_zookeeper:
+	docker compose -f compose-local-fs-zookeeper.yml up
 
 .PHONY: clean
 clean:
-	docker compose -f compose-hdfs-zookeeper.yml down
+	docker compose -f compose-local-fs-zookeeper.yml down
 
 .PHONY: show_local_data
 show_local_data:
 	docker exec $(kafka_container) \
 		ls -lah /var/lib/kafka/data/$(topic)-0/
 
-namenode_container = hdfs_ts_namenode
-.PHONY: show_remote_data_hdfs
-show_remote_data_hdfs:
-	docker exec $(namenode_container) \
-		hdfs dfs -ls '/tmp/kafka/tiered-storage-demo/$(topic)-*/0/'
+.PHONY: show_remote_data_fs
+show_remote_data_fs:
+	docker exec -e KAFKA_OPTS= $(kafka_container) \
+		/usr/bin/bash -c 'ls -lah /home/appuser/kafka-tiered-storage/tiered-storage-demo/$(topic)-*/0/'
 
 zookeeper_container=kafka-ts-zookeeper
 .PHONY: show_remote_metadata_zookeeper
